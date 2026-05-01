@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NxAgent: Build Next Agents</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>
+if (location.pathname.endsWith('/index.html')) {
+  location.replace(location.pathname.replace(/index\.html$/, '') + location.search + location.hash);
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/landing.css">
 </head>
@@ -14,8 +19,8 @@
 <nav>
   <a href="/" class="nav-logo">NxAgent<span>/</span></a>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#howto">Workflow</a></li>
+    <li><a href="/#features">Features</a></li>
+    <li><a href="/#howto">Workflow</a></li>
     <li><a href="/docs/">Docs</a></li>
     <li><a href="https://github.com/nxagent/nxagent" target="_blank" rel="noopener">GitHub</a></li>
   </ul>
