@@ -20,6 +20,113 @@ function cleanCurrentIndexUrl() {
 
 cleanCurrentIndexUrl();
 
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function highlightCode(value) {
+  const keywords = new Set(['as', 'class', 'def', 'for', 'from', 'if', 'import', 'in', 'return', 'with']);
+  const symbols = new Set(['Agent', 'Workflow', 'Memory', 'TraceLogger', 'str', 'int', 'bool', 'list']);
+  const constants = new Set(['False', 'None', 'True']);
+  let html = '';
+  let index = 0;
+
+  while (index < value.length) {
+    const char = value[index];
+    const next = value[index + 1];
+
+    if (char === '#') {
+      const end = value.indexOf('\n', index);
+      const chunk = end === -1 ? value.slice(index) : value.slice(index, end);
+      html += `<span class="syntax-comment">${escapeHtml(chunk)}</span>`;
+      index += chunk.length;
+      continue;
+    }
+
+    if (char === '"' || char === "'") {
+      const quote = char;
+      const triple = value.slice(index, index + 3) === quote.repeat(3);
+      let end = index + (triple ? 3 : 1);
+
+      while (end < value.length) {
+        if (!triple && value[end] === '\\') {
+          end += 2;
+          continue;
+        }
+
+        if (triple && value.slice(end, end + 3) === quote.repeat(3)) {
+          end += 3;
+          break;
+        }
+
+        if (!triple && value[end] === quote) {
+          end += 1;
+          break;
+        }
+
+        end += 1;
+      }
+
+      html += `<span class="syntax-string">${escapeHtml(value.slice(index, end))}</span>`;
+      index = end;
+      continue;
+    }
+
+    if (char === '@' && /[A-Za-z_]/.test(next || '')) {
+      let end = index + 1;
+      while (/[A-Za-z0-9_]/.test(value[end] || '')) end += 1;
+      html += `<span class="syntax-function">${escapeHtml(value.slice(index, end))}</span>`;
+      index = end;
+      continue;
+    }
+
+    if (/[A-Za-z_]/.test(char)) {
+      let end = index + 1;
+      while (/[A-Za-z0-9_]/.test(value[end] || '')) end += 1;
+      const word = value.slice(index, end);
+      let lookahead = end;
+      while (/\s/.test(value[lookahead] || '')) lookahead += 1;
+      const className = keywords.has(word)
+        ? 'syntax-keyword'
+        : symbols.has(word)
+          ? 'syntax-symbol'
+          : constants.has(word)
+            ? 'syntax-constant'
+            : value[lookahead] === '('
+              ? 'syntax-function'
+              : word === 'nx_agent'
+                ? 'syntax-module'
+                : '';
+
+      html += className ? `<span class="${className}">${word}</span>` : escapeHtml(word);
+      index = end;
+      continue;
+    }
+
+    if (/\d/.test(char)) {
+      let end = index + 1;
+      while (/[\d.]/.test(value[end] || '')) end += 1;
+      html += `<span class="syntax-number">${escapeHtml(value.slice(index, end))}</span>`;
+      index = end;
+      continue;
+    }
+
+    html += escapeHtml(char);
+    index += 1;
+  }
+
+  return html;
+}
+
+document.querySelectorAll('.docs-code code, .quick-step > div > code').forEach((block) => {
+  if (block.dataset.highlighted) return;
+  block.innerHTML = highlightCode(block.textContent);
+  block.dataset.highlighted = 'true';
+});
+
 function getHomeUrl() {
   let path = location.pathname.replace(/index\.html$/, '');
   path = path.replace(/\/(docs|get-started)\/$/, '/');

@@ -2,7 +2,7 @@
 
 Build your Next Agent.
 
-NxAgent is a draft agentic AI framework for building agents, tools, and multi-agent workflows in Python. This repository currently contains the early landing site, docs preview, and quickstart page.
+NxAgent is a draft agentic AI framework for building agents, tools, and multi-agent workflows in Python. This repository currently contains the early landing site, docs preview, and get-started page.
 
 ## Site Sections
 
@@ -24,7 +24,7 @@ Package publishing is planned. The install command is placeholder copy until the
 
 Open `index.html` directly in your browser, or use a local server for clean URLs like `docs/` and `get-started/`.
 
-## Quickstart
+## Get Started
 
 ```python
 from nx_agent import Agent, tool
