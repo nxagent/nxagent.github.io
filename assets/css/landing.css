@@ -14,6 +14,13 @@
     --muted: #82929c;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --text-label: 11px;
+    --text-nav: 13px;
+    --text-body: 15px;
+    --text-body-sm: 12px;
+    --text-title-sm: 18px;
+    --text-title-md: 20px;
+    --text-title-lg: clamp(32px, 4.5vw, 48px);
   }
 
   html { scroll-behavior: smooth; }
@@ -79,7 +86,7 @@
 
   .nav-links a {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--text-nav);
     color: var(--muted);
     text-decoration: none;
     transition: color 0.2s;
@@ -93,7 +100,7 @@
 
   .nav-cta {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--text-nav);
     padding: 8px 20px;
     background: var(--accent-dim);
     color: var(--accent);
@@ -116,10 +123,10 @@
     z-index: 1;
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 92vh;
-    padding: 112px 40px 72px;
+    padding: 188px 40px 72px;
   }
 
   .hero-inner {
@@ -127,8 +134,8 @@
     max-width: 1160px;
     display: grid;
     grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1fr);
-    column-gap: 88px;
-    align-items: center;
+    column-gap: 104px;
+    align-items: start;
   }
 
   .hero-copy {
@@ -169,7 +176,7 @@
 
   .hero-sub {
     font-family: var(--mono);
-    font-size: 15px;
+    font-size: var(--text-body);
     color: var(--muted);
     max-width: 560px;
     line-height: 1.8;
@@ -282,7 +289,7 @@
 
   .section-label {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--text-label);
     color: var(--accent);
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -290,7 +297,8 @@
   }
 
   .section-title {
-    font-size: clamp(32px, 4.5vw, 48px);
+    font-family: var(--sans);
+    font-size: var(--text-title-lg);
     font-weight: 800;
     letter-spacing: 0;
     line-height: 1.16;
@@ -324,15 +332,17 @@
   }
 
   .feature-title {
-    font-size: 18px;
+    font-family: var(--sans);
+    font-size: var(--text-title-sm);
     font-weight: 600;
+    line-height: 1.28;
     margin-bottom: 12px;
     letter-spacing: 0;
   }
 
   .feature-desc {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: var(--text-body-sm);
     color: var(--muted);
     line-height: 1.65;
   }
@@ -381,8 +391,10 @@
   }
 
   .doc-card h3 {
-    font-size: 18px;
+    font-family: var(--sans);
+    font-size: var(--text-title-sm);
     font-weight: 600;
+    line-height: 1.28;
     letter-spacing: 0;
     margin-bottom: 14px;
   }
@@ -416,6 +428,7 @@
 
   .docs-closer h2 {
     font-size: clamp(28px, 4vw, 44px);
+    font-family: var(--sans);
     font-weight: 800;
     line-height: 1.14;
     letter-spacing: 0;
@@ -439,7 +452,7 @@
     z-index: 1;
     width: min(1120px, calc(100% - 80px));
     margin: 0 auto;
-    padding: 132px 0 88px;
+    padding: 188px 0 88px;
   }
 
   .page-hero {
@@ -449,7 +462,7 @@
 
   .page-hero h1 {
     font-family: var(--sans);
-    font-size: clamp(32px, 4.5vw, 48px);
+    font-size: var(--text-title-lg);
     font-weight: 800;
     line-height: 1.16;
     letter-spacing: 0;
@@ -459,7 +472,7 @@
   .page-hero p {
     font-family: var(--mono);
     color: var(--muted);
-    font-size: 15px;
+    font-size: var(--text-body);
     line-height: 1.8;
   }
 
@@ -478,7 +491,7 @@
 
   .doc-toc a {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: var(--text-body-sm);
     color: var(--muted);
     text-decoration: none;
     background: var(--surface);
@@ -511,18 +524,19 @@
   }
 
   .doc-section-head h2 {
-    font-size: clamp(26px, 3vw, 36px);
+    font-family: var(--sans);
+    font-size: var(--text-title-md);
     font-weight: 800;
-    line-height: 1.18;
+    line-height: 1.24;
     letter-spacing: 0;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .doc-section-head p,
   .concept-grid p,
   .doc-note {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: var(--text-body-sm);
     color: var(--muted);
     line-height: 1.7;
   }
@@ -539,8 +553,10 @@
   }
 
   .doc-panel h3 {
-    font-size: 17px;
+    font-family: var(--sans);
+    font-size: var(--text-title-sm);
     font-weight: 600;
+    line-height: 1.28;
     letter-spacing: 0;
     margin-bottom: 14px;
   }
@@ -578,8 +594,10 @@
   }
 
   .concept-grid h3 {
-    font-size: 17px;
+    font-family: var(--sans);
+    font-size: var(--text-title-sm);
     font-weight: 600;
+    line-height: 1.28;
     letter-spacing: 0;
     margin-bottom: 10px;
   }
@@ -630,7 +648,7 @@
 
   .quick-step h2 {
     font-family: var(--sans);
-    font-size: 20px;
+    font-size: var(--text-title-md);
     font-weight: 600;
     line-height: 1.2;
     letter-spacing: 0;
@@ -755,15 +773,17 @@
   .step-content { padding-left: 16px; }
 
   .step-title {
-    font-size: 20px;
+    font-family: var(--sans);
+    font-size: var(--text-title-md);
     font-weight: 600;
+    line-height: 1.2;
     margin-bottom: 8px;
     letter-spacing: 0;
   }
 
   .step-desc {
     font-family: var(--mono);
-    font-size: 12px;
+    font-size: var(--text-body-sm);
     color: var(--muted);
     line-height: 1.65;
   }
@@ -816,7 +836,7 @@
 
   /* RESPONSIVE */
   @media (max-width: 980px) {
-    .hero { padding: 112px 32px 72px; }
+    .hero { padding: 156px 32px 72px; }
     .hero-inner { display: flex; flex-direction: column; gap: 64px; align-items: stretch; }
     .hero-copy { text-align: center; }
     .hero-sub { margin-left: auto; margin-right: auto; }
@@ -828,7 +848,7 @@
     nav { padding: 0 24px; }
     .nav-links { display: none; }
     .nav-cta { padding: 8px 14px; }
-    .hero { padding: 112px 24px 72px; }
+    .hero { padding: 156px 24px 72px; }
     .hero-title { font-size: clamp(38px, 11.5vw, 58px); }
     .hero-sub { font-size: 14px; }
     .hero-actions { width: 100%; }
@@ -846,7 +866,7 @@
     .doc-card { padding: 28px 24px; }
     .docs-closer { align-items: flex-start; flex-direction: column; }
     .docs-closer .actions { justify-content: flex-start; }
-    .page-shell { width: calc(100% - 48px); padding: 120px 0 72px; }
+    .page-shell { width: calc(100% - 48px); padding: 156px 0 72px; }
     .docs-grid-wide { grid-template-columns: 1fr; }
     .doc-toc { margin-bottom: 40px; }
     .doc-section { padding-bottom: 40px; margin-bottom: 40px; }

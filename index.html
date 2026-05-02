@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NxAgent | Next Agent</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<script>
-if (location.protocol !== 'file:' && location.pathname.endsWith('/index.html')) {
-  location.replace(location.pathname.replace(/index\.html$/, '') + location.search + location.hash);
-}
-</script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/landing.css">
 </head>
@@ -17,11 +12,11 @@ if (location.protocol !== 'file:' && location.pathname.endsWith('/index.html')) 
 
 <!-- NAV -->
 <nav>
-  <a href="#top" class="nav-logo">NxAgent<span>/</span></a>
+  <a href="./" class="nav-logo" data-scroll-target="top">NxAgent<span>/</span></a>
   <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#workflow">Workflow</a></li>
-    <li><a href="#applications">Applications</a></li>
+    <li><a href="./" data-scroll-target="features">Features</a></li>
+    <li><a href="./" data-scroll-target="workflow">Workflow</a></li>
+    <li><a href="./" data-scroll-target="applications">Applications</a></li>
     <li><a href="docs/">Docs</a></li>
   </ul>
   <a href="get-started/" class="nav-cta">Get started &rarr;</a>
@@ -229,9 +224,9 @@ result = workflow.<span class="fn">run</span>(<span class="str">"Summarize the l
 <!-- FOOTER -->
 <footer>
   <ul class="footer-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#workflow">Workflow</a></li>
-    <li><a href="#applications">Applications</a></li>
+    <li><a href="./" data-scroll-target="features">Features</a></li>
+    <li><a href="./" data-scroll-target="workflow">Workflow</a></li>
+    <li><a href="./" data-scroll-target="applications">Applications</a></li>
     <li><a href="docs/">Docs</a></li>
     <li><a href="get-started/">Get started</a></li>
   </ul>
