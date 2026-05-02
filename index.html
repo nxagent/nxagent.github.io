@@ -3,45 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NxAgent: Build Next Agents</title>
+<title>NxAgent | Next Agent</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <script>
-if (location.pathname.endsWith('/index.html')) {
+if (location.protocol !== 'file:' && location.pathname.endsWith('/index.html')) {
   location.replace(location.pathname.replace(/index\.html$/, '') + location.search + location.hash);
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/landing.css">
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">NxAgent<span>/</span></a>
+  <a href="#top" class="nav-logo">NxAgent<span>/</span></a>
   <ul class="nav-links">
-    <li><a href="/features/">Features</a></li>
-    <li><a href="/workflow/">Workflow</a></li>
-    <li><a href="/docs/">Docs</a></li>
-    <li><a href="https://github.com/nxagent/nxagent" target="_blank" rel="noopener">GitHub</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#applications">Applications</a></li>
+    <li><a href="docs/">Docs</a></li>
   </ul>
-  <a href="/docs/get-started.html" class="nav-cta">Get started →</a>
+  <a href="get-started/" class="nav-cta">Get started &rarr;</a>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="top">
   <div class="hero-inner">
     <div class="hero-copy">
       <div class="hero-badge">v0.1.0 · open source</div>
       <h1 class="hero-title">
-        <span class="line"><span class="accent">N</span>e<span class="accent">x</span>t Agents.</span>
-        <span class="line">Ship fast.</span>
+        <span class="line">Build your</span>
+        <span class="line"><span class="accent">N</span>e<span class="accent">x</span>t Agent.</span>
       </h1>
       <p class="hero-sub">
         NxAgent is a production-grade agentic framework for orchestrating multi-agent workflows, tool execution, and intelligent task routing.
       </p>
       <div class="hero-actions">
-        <a href="/docs/" class="btn-primary">Read the docs</a>
-        <a href="https://github.com/nxagent/nxagent" class="btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="get-started/" class="btn-primary">Get started</a>
+        <a href="docs/" class="btn-secondary">Read docs</a>
       </div>
       <div class="install-block">
         <div class="install-cmd" onclick="copyInstall()">
@@ -60,19 +60,19 @@ if (location.pathname.endsWith('/index.html')) {
           <span class="code-filename">example.py</span>
         </div>
         <div class="code-body">
-<span class="cm"># Build a multi-agent research pipeline in minutes</span>
+<span class="cm"># Build a multi-agent research workflow in minutes</span>
 <br>
-<span class="kw">from</span> nx_agent <span class="kw">import</span> <span class="cls">Agent</span>, <span class="cls">Crew</span>, <span class="cls">Tool</span>
+<span class="kw">from</span> nx_agent <span class="kw">import</span> <span class="cls">Agent</span>, <span class="cls">Workflow</span>, <span class="fn">tool</span>
 <br><br>
 <span class="cm"># Define tools</span>
 <br>
-<span class="fn">@Tool</span>
+<span class="fn">@tool</span>
 <br>
 <span class="kw">def</span> <span class="fn">web_search</span>(query: <span class="cls">str</span>) -> <span class="cls">str</span>:
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Search the web for current information."""</span>
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">... # your implementation</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">...  # your implementation</span>
 <br><br>
 <span class="cm"># Define agents</span>
 <br>
@@ -94,11 +94,11 @@ writer = <span class="cls">Agent</span>(
 <br>
 )
 <br><br>
-<span class="cm"># Orchestrate as a crew</span>
+<span class="cm"># Orchestrate as a workflow</span>
 <br>
-crew = <span class="cls">Crew</span>(agents=[researcher, writer])
+workflow = <span class="cls">Workflow</span>(agents=[researcher, writer])
 <br>
-result = crew.<span class="fn">run</span>(<span class="str">"Summarize the latest advances in agentic AI"</span>)
+result = workflow.<span class="fn">run</span>(<span class="str">"Summarize the latest advances in agentic AI"</span>)
 <br>
 <span class="fn">print</span>(result)
         </div>
@@ -109,7 +109,7 @@ result = crew.<span class="fn">run</span>(<span class="str">"Summarize the lates
 
 <!-- FEATURES -->
 <section class="section" id="features">
-  <div class="section-label">// capabilities</div>
+  <div class="section-label">// features</div>
   <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
   <div class="features-grid">
     <div class="feature-card">
@@ -147,7 +147,7 @@ result = crew.<span class="fn">run</span>(<span class="str">"Summarize the lates
 
 <!-- HOW IT WORKS -->
 <section class="section" id="workflow">
-  <div class="section-label">// how it works</div>
+  <div class="section-label">// workflow</div>
   <h2 class="section-title">From idea to<br>running agent.</h2>
   <div class="steps">
     <div class="step">
@@ -161,61 +161,67 @@ result = crew.<span class="fn">run</span>(<span class="str">"Summarize the lates
       <div class="step-num">02</div>
       <div class="step-content">
         <div class="step-title">Attach tools</div>
-        <p class="step-desc">Decorate any Python function with @Tool and it becomes available to your agents. NxAgent handles schema generation, calling, and error recovery automatically.</p>
+        <p class="step-desc">Decorate any Python function with @tool and it becomes available to your agents. NxAgent handles schema generation, calling, and error recovery automatically.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">03</div>
       <div class="step-content">
-        <div class="step-title">Orchestrate with a Crew</div>
-        <p class="step-desc">Group agents into a Crew and define how they collaborate — sequentially, in parallel, or with dynamic task routing based on agent expertise.</p>
+        <div class="step-title">Orchestrate with a Workflow</div>
+        <p class="step-desc">Group agents into a Workflow and define how they collaborate — sequentially, in parallel, or with dynamic task routing based on agent expertise.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">04</div>
       <div class="step-content">
         <div class="step-title">Run and observe</div>
-        <p class="step-desc">Execute your crew and inspect every step — agent reasoning, tool calls, memory reads, and final outputs — with structured trace logging.</p>
+        <p class="step-desc">Execute your workflow and inspect every step — agent reasoning, tool calls, memory reads, and final outputs — with structured trace logging.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DOCS -->
-<section class="section" id="docs">
-  <div class="section-label">// quickstart</div>
-  <h2 class="section-title">Minimal docs.<br>Ready to grow.</h2>
-  <div class="docs-grid">
-    <div class="doc-card">
-      <div class="doc-kicker">01 install</div>
-      <h3>Add NxAgent</h3>
-      <code>pip install nx-agent</code>
+<!-- APPLICATIONS -->
+<section class="section" id="applications">
+  <div class="section-label">// applications</div>
+  <h2 class="section-title">Built for real<br>agent workflows.</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">01</div>
+      <div class="feature-title">Research workflows</div>
+      <p class="feature-desc">Coordinate agents that gather context, compare findings, verify claims, and produce concise summaries from multiple sources.</p>
+      <div class="application-tags">
+        <span>Market scans</span>
+        <span>Research briefs</span>
+        <span>Source synthesis</span>
+      </div>
     </div>
-    <div class="doc-card">
-      <div class="doc-kicker">02 create</div>
-      <h3>Define an agent</h3>
-      <code>from nx_agent import Agent
-
-agent = Agent(
-    role="Researcher",
-    goal="Find clear answers"
-)</code>
+    <div class="feature-card">
+      <div class="feature-icon">02</div>
+      <div class="feature-title">Tool-using assistants</div>
+      <p class="feature-desc">Give agents access to Python functions, APIs, search, files, and internal systems through simple tool definitions.</p>
+      <div class="application-tags">
+        <span>API actions</span>
+        <span>File operations</span>
+        <span>Internal tools</span>
+      </div>
     </div>
-    <div class="doc-card">
-      <div class="doc-kicker">03 run</div>
-      <h3>Ship a workflow</h3>
-      <code>result = agent.run(
-    "Summarize this topic"
-)
-
-print(result)</code>
+    <div class="feature-card">
+      <div class="feature-icon">03</div>
+      <div class="feature-title">Multi-agent production flows</div>
+      <p class="feature-desc">Split planning, execution, review, and reporting across specialist agents that collaborate inside one workflow.</p>
+      <div class="application-tags">
+        <span>Task routing</span>
+        <span>Review loops</span>
+        <span>Traceable runs</span>
+      </div>
     </div>
   </div>
   <div class="docs-closer">
-    <h2>Build your <span style="color:var(--accent)">N</span>e<span style="color:var(--accent)">x</span>t Agent.</h2>
+    <h2>Ship production agents faster.</h2>
     <div class="actions">
-      <a href="/docs/" class="btn-primary">Read the docs</a>
-      <a href="https://github.com/nxagent/nxagent" class="btn-secondary" target="_blank" rel="noopener">Star on GitHub</a>
+      <a href="get-started/" class="btn-primary">Get started</a>
+      <a href="docs/" class="btn-secondary">Read docs</a>
     </div>
   </div>
 </section>
@@ -223,10 +229,11 @@ print(result)</code>
 <!-- FOOTER -->
 <footer>
   <ul class="footer-links">
-    <li><a href="/docs/">Docs</a></li>
-    <li><a href="https://github.com/nxagent/nxagent" target="_blank" rel="noopener">GitHub</a></li>
-    <li><a href="https://pypi.org/project/nx-agent/" target="_blank" rel="noopener">PyPI</a></li>
-    <li><a href="https://github.com/nxagent/nxagent/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#applications">Applications</a></li>
+    <li><a href="docs/">Docs</a></li>
+    <li><a href="get-started/">Get started</a></li>
   </ul>
   <div class="footer-copy">MIT License · 2025</div>
 </footer>

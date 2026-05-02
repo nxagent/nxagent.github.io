@@ -4,43 +4,270 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NxAgent Docs</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/docs.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/landing.css">
 </head>
 <body>
+
 <nav>
-  <a class="logo" href="/">NxAgent/</a>
+  <a href="../#top" class="nav-logo">NxAgent<span>/</span></a>
   <ul class="nav-links">
-    <li><a href="/docs/get-started.html">Get started</a></li>
-    <li><a href="/docs/quickstart.html">Quickstart</a></li>
-    <li><a href="/">Home</a></li>
+    <li><a href="../#features">Features</a></li>
+    <li><a href="../#workflow">Workflow</a></li>
+    <li><a href="../#applications">Applications</a></li>
+    <li><a href="../docs/" class="is-active">Docs</a></li>
   </ul>
+  <a href="../get-started/" class="nav-cta">Get started &rarr;</a>
 </nav>
-<main>
-  <div class="label">// documentation</div>
-  <h1>Build your next agent with NxAgent.</h1>
-  <p class="lead">A minimal head start for installing NxAgent, creating your first agent, and wiring a small workflow. These pages are intentionally light and ready to grow.</p>
-  <section class="grid" aria-label="Documentation sections">
-    <article class="card">
-      <span>01 start</span>
-      <h2>Get started</h2>
-      <p>Install NxAgent, set up your project, and understand the basic building blocks.</p>
-      <a href="/docs/get-started.html">Open guide →</a>
-    </article>
-    <article class="card">
-      <span>02 build</span>
-      <h2>Quickstart</h2>
-      <p>Create an agent, attach a tool, and run a simple workflow from Python.</p>
-      <a href="/docs/quickstart.html">Run quickstart →</a>
-    </article>
-    <article class="card">
-      <span>03 ship</span>
-      <h2>Examples</h2>
-      <p>Example projects and recipes will live here after the package API settles.</p>
-      <a href="/docs/quickstart.html#next-steps">View next steps →</a>
-    </article>
+
+<main class="page-shell">
+  <section class="page-hero">
+    <div class="section-label">// docs</div>
+    <h1>Documentation that grows with the framework.</h1>
+    <p>Start with the smallest working agent, then move into tools, workflows, configuration, streaming, and observability as your application becomes real.</p>
   </section>
+
+  <div class="docs-closer docs-intro-cta">
+    <h2>Start small. Grow into workflows.</h2>
+    <div class="actions">
+      <a href="../get-started/" class="btn-primary">View quickstart</a>
+    </div>
+  </div>
+
+  <section class="doc-toc" aria-label="Documentation sections">
+    <a href="#install">Install</a>
+    <a href="#concepts">Concepts</a>
+    <a href="#agents">Agents</a>
+    <a href="#tools">Tools</a>
+    <a href="#workflows">Workflows</a>
+    <a href="#configuration">Configuration</a>
+    <a href="#runtime">Runtime</a>
+    <a href="#examples">Examples</a>
+  </section>
+
+  <section class="doc-section" id="install">
+    <div class="doc-section-head">
+      <div class="doc-kicker">01 install</div>
+      <h2>Install NxAgent</h2>
+      <p>Use the package name intended for the Python release. Until publishing is complete, treat this as the stable install target for examples and docs.</p>
+    </div>
+    <div class="doc-panel">
+      <code>pip install nx-agent</code>
+    </div>
+  </section>
+
+  <section class="doc-section" id="concepts">
+    <div class="doc-section-head">
+      <div class="doc-kicker">02 concepts</div>
+      <h2>The core model</h2>
+      <p>NxAgent keeps the mental model small: define agents, attach tools, compose a workflow, run it, then inspect what happened.</p>
+    </div>
+    <div class="concept-grid">
+      <article>
+        <h3>Agent</h3>
+        <p>An agent represents a focused worker with a role, goal, model, instructions, and optional tools.</p>
+      </article>
+      <article>
+        <h3>tool</h3>
+        <p>A decorated Python function that agents can call during a run. Type hints and docstrings become the callable schema.</p>
+      </article>
+      <article>
+        <h3>Workflow</h3>
+        <p>A coordinated execution path for one or more agents, including ordering, routing, tracing, and final output handling.</p>
+      </article>
+      <article>
+        <h3>Run</h3>
+        <p>A single execution with input, tool calls, model responses, intermediate steps, and final output.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="doc-section" id="agents">
+    <div class="doc-section-head">
+      <div class="doc-kicker">03 agents</div>
+      <h2>Define agents with clear responsibility</h2>
+      <p>Agents should be narrow enough to guide behavior, but broad enough to complete useful work. Start with role and goal, then add tools or model settings only when needed.</p>
+    </div>
+    <div class="doc-panel">
+      <code>from nx_agent import Agent
+
+agent = Agent(
+    role="Researcher",
+    goal="Find accurate information and explain it clearly",
+    instructions="Prefer concise answers with source notes."
+)
+
+result = agent.run("Summarize the current state of browser automation.")
+print(result)</code>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tools">
+    <div class="doc-section-head">
+      <div class="doc-kicker">04 tools</div>
+      <h2>Expose Python functions as tools</h2>
+      <p>Use lowercase <code>@tool</code> for decorator-style tools. NxAgent should infer the tool name, description, argument schema, and return shape from normal Python code.</p>
+    </div>
+    <div class="doc-panel">
+      <code>from nx_agent import Agent, tool
+
+@tool
+def web_search(query: str, limit: int = 5) -> str:
+    """Search the web for current information."""
+    ...  # call your search provider
+
+agent = Agent(
+    role="Research Analyst",
+    goal="Find and synthesize reliable information",
+    tools=[web_search],
+)</code>
+    </div>
+    <div class="doc-note">
+      <strong>Tool design:</strong> keep names action-oriented, type every argument, and use docstrings to tell the model when the tool should be called.
+    </div>
+  </section>
+
+  <section class="doc-section" id="workflows">
+    <div class="doc-section-head">
+      <div class="doc-kicker">05 workflows</div>
+      <h2>Coordinate multiple agents</h2>
+      <p>Workflows are where single agents become production systems. Use them to define collaboration, sequencing, review loops, and routing behavior.</p>
+    </div>
+    <div class="doc-panel">
+      <code>from nx_agent import Agent, Workflow, tool
+
+@tool
+def web_search(query: str) -> str:
+    """Search the web for current information."""
+    ...  # your implementation
+
+researcher = Agent(
+    role="Research Analyst",
+    goal="Collect accurate source material",
+    tools=[web_search],
+)
+
+writer = Agent(
+    role="Technical Writer",
+    goal="Turn findings into a clear brief",
+)
+
+workflow = Workflow(agents=[researcher, writer])
+result = workflow.run("Create a short brief on agent observability.")
+print(result)</code>
+    </div>
+  </section>
+
+  <section class="doc-section" id="configuration">
+    <div class="doc-section-head">
+      <div class="doc-kicker">06 configuration</div>
+      <h2>Configure models, memory, and limits</h2>
+      <p>Configuration should stay close to the object it affects. Keep common defaults at the workflow level, then override specific agents when their behavior differs.</p>
+    </div>
+    <div class="doc-panel">
+      <code>agent = Agent(
+    role="Analyst",
+    goal="Summarize findings",
+    model="openai:gpt-4.1",
+    temperature=0.2,
+    max_steps=6,
+)
+
+workflow = Workflow(
+    agents=[agent],
+    memory="session",
+    tracing=True,
+)</code>
+    </div>
+  </section>
+
+  <section class="doc-section" id="runtime">
+    <div class="doc-section-head">
+      <div class="doc-kicker">07 runtime</div>
+      <h2>Run, stream, and observe</h2>
+      <p>Production agent workflows need visibility. The runtime should make final output easy to consume while preserving trace data for debugging.</p>
+    </div>
+    <div class="split-docs">
+      <div class="doc-panel">
+        <h3>Run once</h3>
+        <code>result = workflow.run("Draft a release note.")
+
+print(result.output)
+print(result.steps)</code>
+      </div>
+      <div class="doc-panel">
+        <h3>Stream events</h3>
+        <code>for event in workflow.stream("Research this topic"):
+    print(event.type, event.data)</code>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="examples">
+    <div class="doc-section-head">
+      <div class="doc-kicker">08 examples</div>
+      <h2>Common workflow patterns</h2>
+      <p>These examples show the kinds of applications NxAgent is designed to support as the framework grows.</p>
+    </div>
+    <div class="docs-grid docs-grid-wide">
+      <article class="doc-card">
+        <div class="doc-kicker">research</div>
+        <h3>Research brief</h3>
+        <p class="feature-desc">Researcher gathers source material, reviewer checks gaps, writer produces a concise brief.</p>
+      </article>
+      <article class="doc-card">
+        <div class="doc-kicker">assistant</div>
+        <h3>Tool-using assistant</h3>
+        <p class="feature-desc">Agent calls APIs, reads files, updates systems, and returns a traceable answer.</p>
+      </article>
+      <article class="doc-card">
+        <div class="doc-kicker">review</div>
+        <h3>Review loop</h3>
+        <p class="feature-desc">Builder agent drafts an output, reviewer agent critiques it, finalizer agent prepares the response.</p>
+      </article>
+      <article class="doc-card">
+        <div class="doc-kicker">routing</div>
+        <h3>Dynamic routing</h3>
+        <p class="feature-desc">Workflow routes tasks to specialist agents based on intent, required tools, or confidence.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <div class="doc-section-head">
+      <div class="doc-kicker">api preview</div>
+      <h2>Current API surface</h2>
+      <p>The early public surface should stay small and predictable while deeper runtime features are added.</p>
+    </div>
+    <div class="doc-panel">
+      <code>Agent(...)
+tool(...)
+Workflow(...)
+.run(...)
+.stream(...)</code>
+    </div>
+  </section>
+
+  <div class="docs-closer">
+    <h2>Build your Next Agent.</h2>
+    <div class="actions">
+      <a href="../get-started/" class="btn-primary">Get started</a>
+      <a href="../#top" class="btn-secondary">Back home</a>
+    </div>
+  </div>
 </main>
-<footer>MIT License · Documentation draft</footer>
+
+<footer>
+  <ul class="footer-links">
+    <li><a href="../#features">Features</a></li>
+    <li><a href="../#workflow">Workflow</a></li>
+    <li><a href="../#applications">Applications</a></li>
+    <li><a href="../docs/">Docs</a></li>
+    <li><a href="../get-started/">Get started</a></li>
+  </ul>
+  <div class="footer-copy">MIT License · 2025</div>
+</footer>
+
 </body>
 </html>

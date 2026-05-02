@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Started with NxAgent</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/landing.css">
+</head>
+<body>
+
+<nav>
+  <a href="../#top" class="nav-logo">NxAgent<span>/</span></a>
+  <ul class="nav-links">
+    <li><a href="../#features">Features</a></li>
+    <li><a href="../#workflow">Workflow</a></li>
+    <li><a href="../#applications">Applications</a></li>
+    <li><a href="../docs/">Docs</a></li>
+  </ul>
+  <a href="../get-started/" class="nav-cta is-active">Get started &rarr;</a>
+</nav>
+
+<main class="page-shell">
+  <section class="page-hero">
+    <div class="section-label">// get started</div>
+    <h1>Your first NxAgent workflow.</h1>
+    <p>Install the package, create a tiny agent, attach a tool, and then grow the same code into a multi-agent workflow.</p>
+  </section>
+
+  <section class="doc-toc" aria-label="Quickstart sections">
+    <a href="#install">Install</a>
+    <a href="#agent">Agent</a>
+    <a href="#tool">Tool</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#run">Run</a>
+    <a href="#next">Next</a>
+  </section>
+
+  <section class="quickstart">
+    <article class="quick-step" id="install">
+      <div class="step-num">01</div>
+      <div>
+        <h2>Install NxAgent</h2>
+        <p class="step-desc">Use the intended package name for the Python release.</p>
+        <code>pip install nx-agent</code>
+      </div>
+    </article>
+
+    <article class="quick-step" id="agent">
+      <div class="step-num">02</div>
+      <div>
+        <h2>Create an agent</h2>
+        <p class="step-desc">Start with a single focused agent. Give it a role and a goal that are specific enough to guide the model.</p>
+        <code>from nx_agent import Agent
+
+agent = Agent(
+    role="Researcher",
+    goal="Answer clearly in one paragraph",
+)
+
+result = agent.run("What is NxAgent?")
+print(result)</code>
+      </div>
+    </article>
+
+    <article class="quick-step" id="tool">
+      <div class="step-num">03</div>
+      <div>
+        <h2>Attach a tool</h2>
+        <p class="step-desc">Decorate a normal Python function with <code>@tool</code>. NxAgent can use type hints and docstrings to describe when and how the function should be called.</p>
+        <code>from nx_agent import Agent, tool
+
+@tool
+def web_search(query: str) -> str:
+    """Search the web for current information."""
+    ...  # your implementation
+
+researcher = Agent(
+    role="Research Analyst",
+    goal="Find accurate source material",
+    tools=[web_search],
+)</code>
+      </div>
+    </article>
+
+    <article class="quick-step" id="workflow">
+      <div class="step-num">04</div>
+      <div>
+        <h2>Grow into a workflow</h2>
+        <p class="step-desc">Add a second agent when the job naturally splits into stages, such as research and writing.</p>
+        <code>from nx_agent import Agent, Workflow, tool
+
+@tool
+def web_search(query: str) -> str:
+    """Search the web for current information."""
+    ...  # your implementation
+
+researcher = Agent(
+    role="Research Analyst",
+    goal="Collect accurate source material",
+    tools=[web_search],
+)
+
+writer = Agent(
+    role="Technical Writer",
+    goal="Turn findings into a clear brief",
+)
+
+workflow = Workflow(agents=[researcher, writer])</code>
+      </div>
+    </article>
+
+    <article class="quick-step" id="run">
+      <div class="step-num">05</div>
+      <div>
+        <h2>Run and inspect output</h2>
+        <p class="step-desc">Run the workflow with a plain task. As NxAgent grows, this result should expose final output plus traceable steps.</p>
+        <code>result = workflow.run("Create a short brief on agent observability.")
+
+print(result.output)
+print(result.steps)</code>
+      </div>
+    </article>
+  </section>
+
+  <section class="doc-section" id="next">
+    <div class="doc-section-head">
+      <div class="doc-kicker">next steps</div>
+      <h2>Where to go next</h2>
+      <p>Once the first run works, move into the docs for configuration, streaming, tool design, and multi-agent workflow patterns.</p>
+    </div>
+    <div class="split-docs">
+      <div class="doc-panel">
+        <h3>Read the reference</h3>
+        <code>Agent(...)
+tool(...)
+Workflow(...)
+.run(...)
+.stream(...)</code>
+      </div>
+      <div class="doc-panel">
+        <h3>Build a real workflow</h3>
+        <code>researcher -> reviewer -> writer
+tools -> trace -> final output</code>
+      </div>
+    </div>
+  </section>
+
+  <div class="docs-closer">
+    <h2>Ready for the full docs?</h2>
+    <div class="actions">
+      <a href="../docs/" class="btn-primary">Read docs</a>
+      <a href="../#top" class="btn-secondary">Back home</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <ul class="footer-links">
+    <li><a href="../#features">Features</a></li>
+    <li><a href="../#workflow">Workflow</a></li>
+    <li><a href="../#applications">Applications</a></li>
+    <li><a href="../docs/">Docs</a></li>
+    <li><a href="../get-started/">Get started</a></li>
+  </ul>
+  <div class="footer-copy">MIT License · 2025</div>
+</footer>
+
+</body>
+</html>
