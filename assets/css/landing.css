@@ -12,6 +12,10 @@
     --secondary: #8aa4ff;
     --text: #edf5f4;
     --muted: #82929c;
+    --copy: #b4c3c8;
+    --soft-copy: #9aabb3;
+    --docs-copy: #b4c3c8;
+    --docs-muted: #9aabb3;
     --mono: 'IBM Plex Mono', monospace;
     --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --text-label: 11px;
@@ -79,13 +83,17 @@
   .nav-links a {
     font-family: var(--mono);
     font-size: var(--text-nav);
+    font-weight: 600;
     color: var(--muted);
     text-decoration: none;
     transition: color 0.2s;
     letter-spacing: 0.5px;
   }
 
-  .nav-links a:hover,
+  .nav-links a:hover {
+    color: var(--soft-copy);
+  }
+
   .nav-links a.is-active {
     color: var(--text);
   }
@@ -107,6 +115,7 @@
   .nav-cta.is-active {
     background: rgba(51,214,166,0.2);
     border-color: var(--accent);
+    color: var(--text);
   }
 
   /* HERO */
@@ -169,7 +178,7 @@
   .hero-sub {
     font-family: var(--mono);
     font-size: var(--text-body);
-    color: var(--muted);
+    color: var(--copy);
     max-width: 560px;
     line-height: 1.8;
     margin-bottom: 36px;
@@ -317,26 +326,31 @@
   .feature-card:hover { background: linear-gradient(180deg, var(--accent-glow), rgba(255,255,255,0)), var(--surface); }
 
   .feature-icon {
+    display: inline-flex;
+    align-items: center;
     font-family: var(--mono);
     font-size: 22px;
     color: var(--accent);
-    margin-bottom: 14px;
+    margin: 0 12px 14px 0;
+    vertical-align: middle;
   }
 
   .feature-title {
+    display: inline;
     font-family: var(--sans);
     font-size: var(--text-title-sm);
     font-weight: 600;
     line-height: 1.28;
-    margin-bottom: 12px;
     letter-spacing: 0;
+    vertical-align: middle;
   }
 
   .feature-desc {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    color: var(--copy);
     line-height: 1.65;
+    margin-top: 12px;
   }
 
   .application-tags {
@@ -463,7 +477,7 @@
 
   .page-hero p {
     font-family: var(--mono);
-    color: var(--muted);
+    color: var(--docs-copy);
     font-size: var(--text-body);
     line-height: 1.8;
   }
@@ -505,17 +519,26 @@
 
   .docs-sidebar a {
     display: block;
-    padding: 6px 0;
+    margin-left: -10px;
+    padding: 6px 10px;
     font-family: var(--mono);
     font-size: var(--text-body-sm);
+    font-weight: 500;
     line-height: 1.5;
-    color: var(--muted);
+    color: var(--docs-muted);
     text-decoration: none;
-    transition: color 0.2s;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s, font-weight 0.2s;
   }
 
-  .docs-sidebar a:hover {
+  .docs-sidebar a:hover,
+  .docs-sidebar a.is-active {
     color: var(--text);
+  }
+
+  .docs-sidebar a.is-active {
+    background: rgba(237,245,244,0.06);
+    font-weight: 600;
   }
 
   .docs-main {
@@ -537,7 +560,7 @@
   .docs-callout p {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    color: var(--docs-copy);
     line-height: 1.5;
     margin: 0;
   }
@@ -590,7 +613,7 @@
   .docs-section p {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    color: var(--docs-copy);
     line-height: 1.75;
     margin: 0 0 16px;
   }
@@ -632,7 +655,7 @@
       radial-gradient(circle at 38px 50%, #febc2e 0 5px, transparent 6px),
       radial-gradient(circle at 56px 50%, #28c840 0 5px, transparent 6px),
       var(--surface-soft);
-    color: var(--muted);
+    color: var(--docs-muted);
     font-family: var(--mono);
     font-size: 11px;
     line-height: 1;
@@ -649,7 +672,7 @@
   .syntax-keyword { color: var(--secondary); }
   .syntax-function { color: var(--accent); }
   .syntax-string { color: #ffb86c; }
-  .syntax-comment { color: var(--muted); }
+  .syntax-comment { color: var(--docs-muted); }
   .syntax-symbol { color: #c792ea; }
   .syntax-constant { color: #c792ea; }
   .syntax-module { color: var(--text); }
@@ -669,14 +692,14 @@
     font-size: var(--text-label);
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: var(--muted);
+    color: var(--docs-muted);
     border-bottom: 1px solid var(--border);
   }
 
   .docs-table td {
     padding: 14px 16px;
     border-bottom: 1px solid rgba(38,51,61,0.72);
-    color: var(--muted);
+    color: var(--docs-copy);
     vertical-align: top;
   }
 
@@ -726,7 +749,8 @@
   .doc-toc a {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    font-weight: 500;
+    color: var(--docs-muted);
     text-decoration: none;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -739,6 +763,13 @@
     color: var(--accent);
     border-color: rgba(51,214,166,0.34);
     background: var(--accent-dim);
+  }
+
+  .doc-toc a.is-active {
+    background: rgba(237,245,244,0.06);
+    color: var(--text);
+    font-weight: 600;
+    border-color: rgba(237,245,244,0.34);
   }
 
   .doc-section {
@@ -771,7 +802,7 @@
   .doc-note {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    color: var(--docs-copy);
     line-height: 1.7;
   }
 
@@ -936,7 +967,7 @@
       radial-gradient(circle at 38px 50%, #febc2e 0 5px, transparent 6px),
       radial-gradient(circle at 56px 50%, #28c840 0 5px, transparent 6px),
       var(--surface-soft);
-    color: var(--muted);
+    color: var(--docs-muted);
     font-family: var(--mono);
     font-size: 11px;
     line-height: 1;
@@ -967,7 +998,7 @@
   .code-filename {
     font-family: var(--mono);
     font-size: 12px;
-    color: var(--muted);
+    color: var(--soft-copy);
     margin-left: 8px;
   }
 
@@ -982,7 +1013,7 @@
   .kw { color: var(--secondary); }
   .fn { color: var(--accent); }
   .str { color: #ffb86c; }
-  .cm { color: var(--muted); }
+  .cm { color: var(--soft-copy); }
   .cls { color: #c792ea; }
 
   /* HOW IT WORKS */
@@ -998,7 +1029,7 @@
     content: '';
     position: absolute;
     left: 15px;
-    top: 24px;
+    top: 44px;
     bottom: 24px;
     width: 1px;
     background: linear-gradient(to bottom, var(--accent), transparent);
@@ -1018,7 +1049,7 @@
     font-family: var(--mono);
     font-size: 11px;
     color: var(--accent);
-    background: var(--accent-dim);
+    background: linear-gradient(var(--accent-dim), var(--accent-dim)), var(--bg);
     border: 1px solid rgba(51,214,166,0.26);
     width: 32px;
     height: 32px;
@@ -1029,6 +1060,7 @@
     flex-shrink: 0;
     position: absolute;
     left: 0;
+    z-index: 1;
   }
 
   .step-content { padding-left: 16px; }
@@ -1045,7 +1077,7 @@
   .step-desc {
     font-family: var(--mono);
     font-size: var(--text-body-sm);
-    color: var(--muted);
+    color: var(--copy);
     line-height: 1.65;
   }
 

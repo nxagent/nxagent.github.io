@@ -162,6 +162,64 @@ document.querySelectorAll('[data-scroll-target]').forEach((link) => {
   });
 });
 
+const homeNavLinks = [...document.querySelectorAll('.nav-links a[data-scroll-target]')];
+const homeNavSections = homeNavLinks
+  .map((link) => document.getElementById(link.dataset.scrollTarget))
+  .filter(Boolean);
+
+function setActiveHomeNav(sectionId) {
+  homeNavLinks.forEach((link) => {
+    link.classList.toggle('is-active', link.dataset.scrollTarget === sectionId);
+  });
+}
+
+if (homeNavLinks.length && homeNavSections.length) {
+  const homeNavObserver = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) setActiveHomeNav(visible.target.id);
+  }, {
+    rootMargin: '-36% 0px -48% 0px',
+    threshold: [0, 0.2, 0.45, 0.7],
+  });
+
+  homeNavSections.forEach((section) => homeNavObserver.observe(section));
+}
+
+const topicLinks = [...document.querySelectorAll('.docs-sidebar a[href^="#"], .doc-toc a[href^="#"]')];
+const topicSections = topicLinks
+  .map((link) => document.getElementById(link.getAttribute('href').slice(1)))
+  .filter(Boolean);
+
+function setActiveTopicLink(sectionId) {
+  topicLinks.forEach((link) => {
+    link.classList.toggle('is-active', link.getAttribute('href') === `#${sectionId}`);
+  });
+}
+
+if (topicLinks.length && topicSections.length) {
+  const topicObserver = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) setActiveTopicLink(visible.target.id);
+  }, {
+    rootMargin: '-28% 0px -58% 0px',
+    threshold: [0, 0.15, 0.35, 0.6],
+  });
+
+  topicSections.forEach((section) => topicObserver.observe(section));
+
+  if (location.hash) {
+    setActiveTopicLink(location.hash.slice(1));
+  } else {
+    setActiveTopicLink(topicSections[0].id);
+  }
+}
+
 document.querySelectorAll('a[href]').forEach((link) => {
   link.addEventListener('click', (event) => {
     if (event.defaultPrevented) return;
@@ -192,6 +250,9 @@ document.querySelectorAll('a[href*="#"]').forEach((link) => {
 
     event.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (link.matches('.docs-sidebar a, .doc-toc a')) {
+      setActiveTopicLink(target.id);
+    }
     history.replaceState(null, '', url.href);
   });
 });
