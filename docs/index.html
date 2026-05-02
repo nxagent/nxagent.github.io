@@ -21,242 +21,243 @@
   <a href="../get-started/" class="nav-cta">Get started &rarr;</a>
 </nav>
 
-<main class="page-shell">
-  <section class="page-hero">
-    <div class="section-label">// docs</div>
-    <h1>Documentation that grows with the framework.</h1>
-    <p>Start with the smallest working agent, then move into tools, workflows, configuration, streaming, and observability as your application becomes real.</p>
-  </section>
+<div class="docs-layout">
+  <aside class="docs-sidebar" aria-label="Documentation navigation">
+    <h3>Getting Started</h3>
+    <ul>
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#installation">Installation</a></li>
+      <li><a href="#first-agent">Your first agent</a></li>
+    </ul>
+    <h3>Core Concepts</h3>
+    <ul>
+      <li><a href="#agents">Agents</a></li>
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#workflows">Workflows</a></li>
+      <li><a href="#memory">Memory</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+    <h3>Reference</h3>
+    <ul>
+      <li><a href="#config">Configuration</a></li>
+      <li><a href="#examples">Examples</a></li>
+      <li><a href="#api">API reference</a></li>
+    </ul>
+  </aside>
 
-  <div class="docs-closer docs-intro-cta">
-    <h2>Start small. Grow into workflows.</h2>
-    <div class="actions">
-      <a href="../get-started/" class="btn-primary">View quickstart</a>
-    </div>
-  </div>
+  <main class="docs-main">
+    <section class="docs-section" id="introduction">
+      <h2>Introduction</h2>
+      <p>NxAgent is a Python framework for building, orchestrating, and deploying multi-agent workflows. It provides a clean abstraction over LLM APIs, tool execution, memory management, and agent communication.</p>
+      <p>Designed for production use, NxAgent keeps the public surface small: define agents, expose tools, compose workflows, run them, and inspect what happened.</p>
+      <table class="docs-table">
+        <tr><th>Use case</th><th>What NxAgent provides</th></tr>
+        <tr><td>Research assistants</td><td>Specialist agents for searching, checking, and writing.</td></tr>
+        <tr><td>Tool-using assistants</td><td>Typed Python functions exposed safely to agents.</td></tr>
+        <tr><td>Production workflows</td><td>Step limits, tracing, streaming, and explicit orchestration.</td></tr>
+      </table>
+    </section>
 
-  <section class="doc-toc" aria-label="Documentation sections">
-    <a href="#install">Install</a>
-    <a href="#concepts">Concepts</a>
-    <a href="#agents">Agents</a>
-    <a href="#tools">Tools</a>
-    <a href="#workflows">Workflows</a>
-    <a href="#configuration">Configuration</a>
-    <a href="#runtime">Runtime</a>
-    <a href="#examples">Examples</a>
-  </section>
+    <section class="docs-section" id="installation">
+      <h2>Installation</h2>
+      <p>Install the package into a Python 3.10+ environment:</p>
+      <pre class="docs-code"><code>pip install nx-agent</code></pre>
+      <p>For a clean project setup, create a virtual environment first:</p>
+      <pre class="docs-code"><code>python -m venv .venv
+source .venv/bin/activate
+pip install nx-agent</code></pre>
+      <p>Optional extras can install provider integrations or memory backends as the framework grows:</p>
+      <pre class="docs-code"><code>pip install nx-agent[memory]   # adds vector store support
+pip install nx-agent[all]      # installs all extras</code></pre>
+      <p>Set provider keys through environment variables instead of hardcoding secrets:</p>
+      <pre class="docs-code"><code>export OPENAI_API_KEY="..."
+export ANTHROPIC_API_KEY="..."</code></pre>
+    </section>
 
-  <section class="doc-section" id="install">
-    <div class="doc-section-head">
-      <div class="doc-kicker">01 install</div>
-      <h2>Install NxAgent</h2>
-      <p>Use the package name intended for the Python release. Until publishing is complete, treat this as the stable install target for examples and docs.</p>
-    </div>
-    <div class="doc-panel">
-      <code>pip install nx-agent</code>
-    </div>
-  </section>
-
-  <section class="doc-section" id="concepts">
-    <div class="doc-section-head">
-      <div class="doc-kicker">02 concepts</div>
-      <h2>The core model</h2>
-      <p>NxAgent keeps the mental model small: define agents, attach tools, compose a workflow, run it, then inspect what happened.</p>
-    </div>
-    <div class="concept-grid">
-      <article>
-        <h3>Agent</h3>
-        <p>An agent represents a focused worker with a role, goal, model, instructions, and optional tools.</p>
-      </article>
-      <article>
-        <h3>tool</h3>
-        <p>A decorated Python function that agents can call during a run. Type hints and docstrings become the callable schema.</p>
-      </article>
-      <article>
-        <h3>Workflow</h3>
-        <p>A coordinated execution path for one or more agents, including ordering, routing, tracing, and final output handling.</p>
-      </article>
-      <article>
-        <h3>Run</h3>
-        <p>A single execution with input, tool calls, model responses, intermediate steps, and final output.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="doc-section" id="agents">
-    <div class="doc-section-head">
-      <div class="doc-kicker">03 agents</div>
-      <h2>Define agents with clear responsibility</h2>
-      <p>Agents should be narrow enough to guide behavior, but broad enough to complete useful work. Start with role and goal, then add tools or model settings only when needed.</p>
-    </div>
-    <div class="doc-panel">
-      <code>from nx_agent import Agent
-
-agent = Agent(
-    role="Researcher",
-    goal="Find accurate information and explain it clearly",
-    instructions="Prefer concise answers with source notes."
-)
-
-result = agent.run("Summarize the current state of browser automation.")
-print(result)</code>
-    </div>
-  </section>
-
-  <section class="doc-section" id="tools">
-    <div class="doc-section-head">
-      <div class="doc-kicker">04 tools</div>
-      <h2>Expose Python functions as tools</h2>
-      <p>Use lowercase <code>@tool</code> for decorator-style tools. NxAgent should infer the tool name, description, argument schema, and return shape from normal Python code.</p>
-    </div>
-    <div class="doc-panel">
-      <code>from nx_agent import Agent, tool
-
-@tool
-def web_search(query: str, limit: int = 5) -> str:
-    """Search the web for current information."""
-    ...  # call your search provider
+    <section class="docs-section" id="first-agent">
+      <h2>Your First Agent</h2>
+      <p>Start with one focused agent. Give it a role and goal that are specific enough to guide model behavior.</p>
+      <pre class="docs-code"><code>from nx_agent import Agent
 
 agent = Agent(
     role="Research Analyst",
-    goal="Find and synthesize reliable information",
-    tools=[web_search],
-)</code>
-    </div>
-    <div class="doc-note">
-      <strong>Tool design:</strong> keep names action-oriented, type every argument, and use docstrings to tell the model when the tool should be called.
-    </div>
-  </section>
+    goal="Answer clearly in one paragraph",
+)
 
-  <section class="doc-section" id="workflows">
-    <div class="doc-section-head">
-      <div class="doc-kicker">05 workflows</div>
-      <h2>Coordinate multiple agents</h2>
-      <p>Workflows are where single agents become production systems. Use them to define collaboration, sequencing, review loops, and routing behavior.</p>
-    </div>
-    <div class="doc-panel">
-      <code>from nx_agent import Agent, Workflow, tool
+result = agent.run("What is NxAgent?")
+print(result)</code></pre>
+      <p>The result should contain the final answer. As you add tools or workflows, inspect the trace to understand how the agent reached that answer.</p>
+      <table class="docs-table">
+        <tr><th>Common mistake</th><th>Fix</th></tr>
+        <tr><td>Role is too vague</td><td>Use a concrete responsibility, like <code>Research Analyst</code>.</td></tr>
+        <tr><td>Goal is too broad</td><td>Describe the expected output shape and quality bar.</td></tr>
+        <tr><td>Too many tools too early</td><td>Start with no tools, then add one tool at a time.</td></tr>
+      </table>
+    </section>
+
+    <section class="docs-section" id="agents">
+      <h2>Agents</h2>
+      <p>An <code>Agent</code> is the core unit in NxAgent. Each agent has a role, a goal, and optional backstory, tools, model settings, and memory.</p>
+      <pre class="docs-code"><code>from nx_agent import Agent
+
+agent = Agent(
+    role="Data Analyst",
+    goal="Analyze datasets and surface insights",
+    backstory="Expert in statistical analysis and data visualization.",
+    tools=[...],
+    llm="gpt-4o",
+    verbose=True,
+)</code></pre>
+      <table class="docs-table">
+        <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+        <tr><td><code>role</code></td><td>str</td><td>The agent's job title — shapes LLM behavior.</td></tr>
+        <tr><td><code>goal</code></td><td>str</td><td>What the agent is trying to accomplish.</td></tr>
+        <tr><td><code>backstory</code></td><td>str</td><td>Optional context that refines agent persona.</td></tr>
+        <tr><td><code>tools</code></td><td>list</td><td>List of decorated tool functions.</td></tr>
+        <tr><td><code>llm</code></td><td>str</td><td>LLM model string. Defaults can come from config.</td></tr>
+        <tr><td><code>verbose</code></td><td>bool</td><td>Log reasoning steps to stdout.</td></tr>
+      </table>
+      <p>Good agents are narrow enough to make consistent choices, but broad enough to complete useful work. Split unrelated responsibilities into separate agents.</p>
+    </section>
+
+    <section class="docs-section" id="tools">
+      <h2>Tools</h2>
+      <p>Decorate any Python function with <code>@tool</code> to make it available to agents. NxAgent auto-generates the tool schema from type hints and docstrings.</p>
+      <pre class="docs-code"><code>from nx_agent import tool
 
 @tool
 def web_search(query: str) -> str:
-    """Search the web for current information."""
-    ...  # your implementation
+    """Search the web and return a text summary."""
+    # your implementation here
+    return results</code></pre>
+      <p>Tool names should be action-oriented, arguments should be typed, and docstrings should explain when the tool should be called.</p>
+      <table class="docs-table">
+        <tr><th>Part</th><th>Guidance</th></tr>
+        <tr><td>Name</td><td>Use verbs like <code>search_web</code>, <code>read_file</code>, or <code>create_ticket</code>.</td></tr>
+        <tr><td>Arguments</td><td>Prefer simple typed arguments over nested blobs.</td></tr>
+        <tr><td>Return value</td><td>Return concise strings or structured data the agent can reason over.</td></tr>
+        <tr><td>Errors</td><td>Raise useful exceptions or return a clear failure message.</td></tr>
+      </table>
+      <pre class="docs-code"><code>@tool
+def create_ticket(title: str, priority: str = "medium") -> str:
+    """Create a support ticket when the user asks to track work."""
+    ticket_id = internal_api.create(title=title, priority=priority)
+    return f"Created ticket {ticket_id}"</code></pre>
+    </section>
 
-researcher = Agent(
-    role="Research Analyst",
-    goal="Collect accurate source material",
-    tools=[web_search],
-)
-
-writer = Agent(
-    role="Technical Writer",
-    goal="Turn findings into a clear brief",
-)
-
-workflow = Workflow(agents=[researcher, writer])
-result = workflow.run("Create a short brief on agent observability.")
-print(result)</code>
-    </div>
-  </section>
-
-  <section class="doc-section" id="configuration">
-    <div class="doc-section-head">
-      <div class="doc-kicker">06 configuration</div>
-      <h2>Configure models, memory, and limits</h2>
-      <p>Configuration should stay close to the object it affects. Keep common defaults at the workflow level, then override specific agents when their behavior differs.</p>
-    </div>
-    <div class="doc-panel">
-      <code>agent = Agent(
-    role="Analyst",
-    goal="Summarize findings",
-    model="openai:gpt-4.1",
-    temperature=0.2,
-    max_steps=6,
-)
+    <section class="docs-section" id="workflows">
+      <h2>Workflows</h2>
+      <p>A <code>Workflow</code> orchestrates one or more agents. Use workflows when a task needs sequencing, review, routing, or collaboration.</p>
+      <pre class="docs-code"><code>from nx_agent import Workflow
 
 workflow = Workflow(
-    agents=[agent],
-    memory="session",
-    tracing=True,
-)</code>
-    </div>
-  </section>
+    agents=[researcher, writer],
+    mode="sequential",   # or "parallel" | "dynamic"
+)
+result = workflow.run("Your task here")</code></pre>
+      <table class="docs-table">
+        <tr><th>Mode</th><th>Use when</th></tr>
+        <tr><td><code>sequential</code></td><td>Each agent depends on the previous agent's output.</td></tr>
+        <tr><td><code>parallel</code></td><td>Agents can work independently before results are merged.</td></tr>
+        <tr><td><code>dynamic</code></td><td>The workflow should route tasks based on intent or confidence.</td></tr>
+      </table>
+      <pre class="docs-code"><code>researcher = Agent(role="Researcher", goal="Collect reliable facts")
+writer = Agent(role="Writer", goal="Turn facts into a concise brief")
+reviewer = Agent(role="Reviewer", goal="Check accuracy and missing context")
 
-  <section class="doc-section" id="runtime">
-    <div class="doc-section-head">
-      <div class="doc-kicker">07 runtime</div>
-      <h2>Run, stream, and observe</h2>
-      <p>Production agent workflows need visibility. The runtime should make final output easy to consume while preserving trace data for debugging.</p>
-    </div>
-    <div class="split-docs">
-      <div class="doc-panel">
-        <h3>Run once</h3>
-        <code>result = workflow.run("Draft a release note.")
+workflow = Workflow(
+    agents=[researcher, writer, reviewer],
+    mode="sequential",
+    tracing=True,
+)</code></pre>
+    </section>
+
+    <section class="docs-section" id="memory">
+      <h2>Memory</h2>
+      <p>NxAgent supports short-term session memory and long-term vector store memory. Memory is agent-scoped by default so unrelated agents do not leak context into each other.</p>
+      <pre class="docs-code"><code>agent = Agent(
+    role="Assistant",
+    goal="Help users with research tasks",
+    memory=True,
+    long_term_memory="chroma",     # or "pinecone", "weaviate"
+)</code></pre>
+      <p>Use short-term memory for a conversation or single run. Use long-term memory when the agent needs durable knowledge across sessions.</p>
+    </section>
+
+    <section class="docs-section" id="results">
+      <h2>Results</h2>
+      <p>A run result should make the final output easy to use while preserving execution details for debugging and observability.</p>
+      <pre class="docs-code"><code>result = workflow.run("Draft a launch note.")
 
 print(result.output)
-print(result.steps)</code>
-      </div>
-      <div class="doc-panel">
-        <h3>Stream events</h3>
-        <code>for event in workflow.stream("Research this topic"):
-    print(event.type, event.data)</code>
-      </div>
-    </div>
-  </section>
+print(result.steps)
+print(result.trace_id)</code></pre>
+      <p>Streaming is useful when you want to update a UI as the workflow progresses:</p>
+      <pre class="docs-code"><code>for event in workflow.stream("Research this topic"):
+    print(event.type, event.data)</code></pre>
+    </section>
 
-  <section class="doc-section" id="examples">
-    <div class="doc-section-head">
-      <div class="doc-kicker">08 examples</div>
-      <h2>Common workflow patterns</h2>
-      <p>These examples show the kinds of applications NxAgent is designed to support as the framework grows.</p>
-    </div>
-    <div class="docs-grid docs-grid-wide">
-      <article class="doc-card">
-        <div class="doc-kicker">research</div>
-        <h3>Research brief</h3>
-        <p class="feature-desc">Researcher gathers source material, reviewer checks gaps, writer produces a concise brief.</p>
-      </article>
-      <article class="doc-card">
-        <div class="doc-kicker">assistant</div>
-        <h3>Tool-using assistant</h3>
-        <p class="feature-desc">Agent calls APIs, reads files, updates systems, and returns a traceable answer.</p>
-      </article>
-      <article class="doc-card">
-        <div class="doc-kicker">review</div>
-        <h3>Review loop</h3>
-        <p class="feature-desc">Builder agent drafts an output, reviewer agent critiques it, finalizer agent prepares the response.</p>
-      </article>
-      <article class="doc-card">
-        <div class="doc-kicker">routing</div>
-        <h3>Dynamic routing</h3>
-        <p class="feature-desc">Workflow routes tasks to specialist agents based on intent, required tools, or confidence.</p>
-      </article>
-    </div>
-  </section>
+    <section class="docs-section" id="config">
+      <h2>Configuration</h2>
+      <p>Set defaults through environment variables, explicit constructor arguments, or a <code>.nxagent.toml</code> config file.</p>
+      <pre class="docs-code"><code># .nxagent.toml
+[llm]
+provider = "anthropic"
+model = "claude-sonnet-4-20250514"
+api_key_env = "ANTHROPIC_API_KEY"
 
-  <section class="doc-section">
-    <div class="doc-section-head">
-      <div class="doc-kicker">api preview</div>
-      <h2>Current API surface</h2>
-      <p>The early public surface should stay small and predictable while deeper runtime features are added.</p>
-    </div>
-    <div class="doc-panel">
-      <code>Agent(...)
-tool(...)
-Workflow(...)
-.run(...)
-.stream(...)</code>
-    </div>
-  </section>
+[logging]
+level = "info"
+trace = true</code></pre>
+      <table class="docs-table">
+        <tr><th>Setting</th><th>Description</th></tr>
+        <tr><td><code>provider</code></td><td>The model provider used by default.</td></tr>
+        <tr><td><code>model</code></td><td>The default model for agents without an override.</td></tr>
+        <tr><td><code>api_key_env</code></td><td>Name of the environment variable containing the API key.</td></tr>
+        <tr><td><code>trace</code></td><td>Enable structured run traces for debugging.</td></tr>
+      </table>
+    </section>
 
-  <div class="docs-closer">
-    <h2>Build your Next Agent.</h2>
-    <div class="actions">
-      <a href="../get-started/" class="btn-primary">Get started</a>
-      <a href="../" class="btn-secondary">Back home</a>
-    </div>
-  </div>
-</main>
+    <section class="docs-section" id="examples">
+      <h2>Examples</h2>
+      <p>Use these as starting points for real applications. Keep each example small, then add production concerns like retries, logging, and persistence.</p>
+      <table class="docs-table">
+        <tr><th>Example</th><th>Agents</th><th>Pattern</th></tr>
+        <tr><td>Research assistant</td><td>Researcher, reviewer, writer</td><td>Sequential workflow with tools.</td></tr>
+        <tr><td>Code reviewer</td><td>Analyzer, reviewer, summarizer</td><td>Tool-using workflow over repository files.</td></tr>
+        <tr><td>Report generator</td><td>Collector, analyst, writer</td><td>Multi-agent synthesis with final formatting.</td></tr>
+        <tr><td>Support assistant</td><td>Classifier, resolver, ticket creator</td><td>Dynamic routing based on user intent.</td></tr>
+      </table>
+      <pre class="docs-code"><code># Research assistant sketch
+researcher = Agent(role="Researcher", goal="Find source material", tools=[web_search])
+reviewer = Agent(role="Reviewer", goal="Check claims and identify gaps")
+writer = Agent(role="Writer", goal="Create a concise brief")
+
+workflow = Workflow(agents=[researcher, reviewer, writer], mode="sequential")
+result = workflow.run("Summarize agent observability best practices")</code></pre>
+    </section>
+
+    <section class="docs-section" id="api">
+      <h2>API Reference</h2>
+      <p>These are the primary public objects to start with. Keep application code close to this surface until deeper runtime features are needed.</p>
+      <table class="docs-table">
+        <tr><th>Object</th><th>Purpose</th></tr>
+        <tr><td><code>Agent</code></td><td>Defines a role, goal, model settings, tools, and memory.</td></tr>
+        <tr><td><code>@tool</code></td><td>Turns a typed Python function into an agent-callable tool.</td></tr>
+        <tr><td><code>Workflow</code></td><td>Coordinates one or more agents and controls execution mode.</td></tr>
+        <tr><td><code>workflow.run()</code></td><td>Runs a workflow once and returns a result object.</td></tr>
+        <tr><td><code>workflow.stream()</code></td><td>Streams runtime events for UI or observability surfaces.</td></tr>
+      </table>
+      <pre class="docs-code"><code>from nx_agent import Agent, Workflow, tool
+
+__all__ = [
+    "Agent",
+    "Workflow",
+    "tool",
+]</code></pre>
+    </section>
+  </main>
+</div>
 
 <footer>
   <ul class="footer-links">
