@@ -59,7 +59,7 @@
     height: 68px;
     background: rgba(11,17,23,0.88);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(255,255,255,0.32);
   }
 
   .nav-logo {
@@ -592,6 +592,20 @@
     border-color: var(--accent);
     box-shadow: none;
     transform: none;
+  }
+
+  .callout-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .docs-callout .btn-secondary {
+    font-size: 13px;
+    padding: 8px 14px;
+    white-space: nowrap;
   }
 
   .docs-section {
@@ -1178,6 +1192,7 @@
       flex-direction: column;
       margin-bottom: 40px;
     }
+    .callout-actions { justify-content: flex-start; }
     .docs-section { margin-bottom: 40px; }
     .docs-table {
       display: block;
